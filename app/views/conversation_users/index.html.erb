@@ -1,0 +1,27 @@
+<h1>Listing conversation_users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Conversation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @conversation_users.each do |conversation_user| %>
+      <tr>
+        <td><%= conversation_user.user_id %></td>
+        <td><%= conversation_user.conversation_id %></td>
+        <td><%= link_to 'Show', conversation_user %></td>
+        <td><%= link_to 'Edit', edit_conversation_user_path(conversation_user) %></td>
+        <td><%= link_to 'Destroy', conversation_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Conversation user', new_conversation_user_path %>
