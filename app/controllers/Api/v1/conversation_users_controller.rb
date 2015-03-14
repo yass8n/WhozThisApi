@@ -1,10 +1,12 @@
 class API::V1::ConversationUsersController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_conversation_user, only: [:show, :edit, :update, :destroy]
 
   # GET /conversation_users
   # GET /conversation_users.json
   def index
     @conversation_users = ConversationUser.all
+    render json: @conversation_users, status: :ok
   end
 
   # GET /conversation_users/1
@@ -29,7 +31,7 @@ class API::V1::ConversationUsersController < ApplicationController
     respond_to do |format|
       if @conversation_user.save
         format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully created.' }
-        format.json { render :show, status: :created, location: @conversation_user }
+        format.json { render json: @conversation_user, status: :created }
       else
         format.html { render :new }
         format.json { render json: @conversation_user.errors, status: :unprocessable_entity }
@@ -43,7 +45,7 @@ class API::V1::ConversationUsersController < ApplicationController
     respond_to do |format|
       if @conversation_user.update(conversation_user_params)
         format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully updated.' }
-        format.json { render :show, status: :ok, location: @conversation_user }
+        format.json { render json: @conversation_user, status: :updated }
       else
         format.html { render :edit }
         format.json { render json: @conversation_user.errors, status: :unprocessable_entity }

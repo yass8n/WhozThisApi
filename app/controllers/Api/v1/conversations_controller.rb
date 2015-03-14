@@ -1,10 +1,12 @@
 class API::V1::ConversationsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
 
   # GET /conversations
   # GET /conversations.json
   def index
     @conversations = Conversation.all
+    render json: @conversations, status: :ok
   end
 
   # GET /conversations/1
@@ -29,7 +31,7 @@ class API::V1::ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.save
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
-        format.json { render :show, status: :created, location: @conversation }
+        format.json { render json: @conversation, status: :created }
       else
         format.html { render :new }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
@@ -43,7 +45,7 @@ class API::V1::ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.update(conversation_params)
         format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @conversation }
+        format.json { render json: @conversation, status: :updated }
       else
         format.html { render :edit }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
