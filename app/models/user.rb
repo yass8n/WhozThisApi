@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :phone, presence: true
   has_many :conversations, through: :conversation_users
+  before_save :strip_phone_number
 
   	def generate_filename
 		filename = SecureRandom.hex + ".jpg"
@@ -41,5 +42,15 @@ class User < ActiveRecord::Base
 	end
 	def find_by_phone
 	    return User.where(phone: self.phone)[0]
+	end
+	def strip_phone_number
+		if (self.phone != nil) then
+	        self.phone.gsub!(")", "");
+	        self.phone.gsub!("(", "");
+	        self.phone.gsub!(" ", "");
+	        self.phone.gsub!("-", "");
+	        self.phone.gsub!("/", "");
+	        self.phone.sub!(/^1/, ''); #if it starts with a 1, remove it
+	    end
 	end
 end
