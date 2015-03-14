@@ -1,4 +1,4 @@
-class ConversationUsersController < ApplicationController
+class API::V1::ConversationUsersController < ApplicationController
   before_action :set_conversation_user, only: [:show, :edit, :update, :destroy]
 
   # GET /conversation_users

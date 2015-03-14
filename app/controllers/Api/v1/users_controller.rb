@@ -1,10 +1,11 @@
-class UsersController < ApplicationController
+class API::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+    render json: @users, status: :ok
   end
 
   # GET /users/1
