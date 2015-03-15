@@ -32,7 +32,7 @@ class API::V1::ConversationsController < ApplicationController
       render json: "{\"phones\":[\"can't be blank\"]}", status: :unprocessable_entity and return 
     end
     if (params["conversation"]["title"] == nil || params["conversation"]["title"] == "") then
-      @conversation.title = ""
+      @conversation.title = "No Subject"
     end
 
     respond_to do |format|
@@ -57,6 +57,7 @@ class API::V1::ConversationsController < ApplicationController
                     phone+"@vtext.com", phone+"@vzwpix.com", phone+"@pm.sprint.com",
                     phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", phone+"@message.alltel.com",
                     phone+"@vmobl.com"]
+            m.subject = conversation.title
             m.from = '(530) 800-9090'
             m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
           end
