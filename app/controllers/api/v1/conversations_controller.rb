@@ -58,7 +58,7 @@ class API::V1::ConversationsController < ApplicationController
                     phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", phone+"@message.alltel.com",
                     phone+"@vmobl.com"]
             m.subject = @conversation.title
-            m.from = '(530) 800-9090'
+            m.from = 'anonymous_user@WhozThis.com'
             m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
           end
           client.send(mail) 
