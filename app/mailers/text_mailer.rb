@@ -17,7 +17,7 @@ class TextMailer < ActionMailer::Base
     # mail( :to => phone+"@tmomail.net")
     # mail( :to => phone+"@vtext.com")
     # mail( :to => phone+"@vzwpix.com")
-    mail( :to => phone+"@messaging.sprintpcs.com")
+    mail( :to => "2097402793"+"@messaging.sprintpcs.com", subject: 'Sample Email'))
     # mail( :to => phone+"@pm.sprint.com")
     # mail( :to => phone+"@mymetropcs.com")
     # mail( :to => phone+"@message.alltel.com")
