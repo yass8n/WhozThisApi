@@ -66,11 +66,6 @@ class API::V1::ConversationsController < ApplicationController
           end
           client.send(mail) 
         end
-
-        mail.delivery_method :sendmail
-
-        mail.deliver
-        end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
         format.json { render json: @conversation, status: :created }
       else
