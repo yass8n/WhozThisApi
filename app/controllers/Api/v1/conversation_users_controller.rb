@@ -71,6 +71,6 @@ class API::V1::ConversationUsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conversation_user_params
-      params.require(:conversation_user).permit(:user_id, :conversation_id)
+      params.require(:conversation_user).permit(:phone, :conversation_id)
     end
 end
