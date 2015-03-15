@@ -47,6 +47,7 @@ class API::V1::ConversationsController < ApplicationController
           end
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
+          TextMailer.send_text_message(conversation_user.phone).deliver
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
         format.json { render json: @conversation, status: :created }
