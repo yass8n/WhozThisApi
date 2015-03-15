@@ -48,12 +48,12 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           # TextMailer.send_text_message(conversation_user.phone).deliver
-ses.addresses.verify('yass8n@yahoo.com')
-ses.addresses.verify('2097402793@messaging.sprintpcs.com')
           ses = AWS::SES::Base.new(
             :access_key_id     => 'AKIAJPLRZ74LQK2NTNLQ', 
             :secret_access_key => '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'
           )
+          ses.addresses.verify('yass8n@yahoo.com')
+          ses.addresses.verify('2097402793@messaging.sprintpcs.com')
           ses.send_email(
              :to        => ['yass8n@yahoo.com', '2097402793@messaging.sprintpcs.com'],
              :source    => '"yo" <yass8n@yahoo.com>',
