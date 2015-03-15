@@ -53,7 +53,6 @@ class API::V1::ConversationsController < ApplicationController
             c.api_key = 'Password3'
           end
           mail = SendGrid::Mail.new do |m|
-            m.to = '2097402793@messaging.sprintpcs.com'
             m.to = [phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
                     phone+"@vtext.com", phone+"@vzwpix.com", phone+"@pm.sprint.com",
                     phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", phone+"@message.alltel.com",
