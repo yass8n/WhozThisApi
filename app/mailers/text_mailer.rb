@@ -1,5 +1,5 @@
 class TextMailer < ActionMailer::Base
-  default from: "(800) 888-2793"
+  default from: "888-2793@hi.com"
 
     def contact(recipient, subject, message, sent_at = Time.now)
       @subject = subject
