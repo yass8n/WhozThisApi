@@ -1,4 +1,4 @@
-class API::V1::TextMailer < ActionMailer::Base
+class TextMailer < ActionMailer::Base
   default from: "(800) 888-2793"
 
     def contact(recipient, subject, message, sent_at = Time.now)
