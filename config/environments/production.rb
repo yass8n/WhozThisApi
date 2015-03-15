@@ -75,28 +75,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.action_mailer.default_url_options = { :host => 'ec2-54-69-64-152.us-west-2.compute.amazonaws.com/' }
-  # ActionMailer Config
-  # Setup for production - deliveries, no errors raised
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  # Disable delivery errors, bad email addresses will be ignored
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default :charset => "utf-8"
-
-  config.action_controller.include_all_helpers = true
-
-  config.assets.initialize_on_precompile = true
-
-  ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.smtp_settings = {
-  :user_name => 'yaniss',
-  :password => 'Password3',
-  :domain => 'ec2-54-69-64-152.us-west-2.compute.amazonaws.com',
-  :address => 'smtp.sendgrid.net',
-  :port => 587,
-  :authentication => :plain,
-  :enable_starttls_auto => true
-}
 end

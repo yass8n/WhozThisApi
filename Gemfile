@@ -30,7 +30,7 @@ gem "active_model_serializers"
 
 gem "rails-api"
 
-gem "aws-ses", "~> 0.6.0", :require => 'aws/ses'
+gem 'sendgrid-ruby'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

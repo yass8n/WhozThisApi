@@ -1,5 +1,5 @@
 class API::V1::ConversationsController < ApplicationController
-  require 'mail'
+  require 'sendgrid-ruby'
   skip_before_action :verify_authenticity_token
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
 
@@ -49,11 +49,22 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           # TextMailer.send_text_message(conversation_user.phone).deliver
-          mail = Mail.new do
-          from     'me@test.lindsaar.net'
-          to       'yass8n@yahoo.com'
-          subject  'Here is the image you wanted'
-          body     'HI'
+          # mail = Mail.new do
+          # from     'me@test.lindsaar.net'
+          # to       'yass8n@yahoo.com'
+          # subject  'Here is the image you wanted'
+          # body     'HI'
+          client = SendGrid::Client.new do |c|
+            c.api_user = 'yaniss'
+            c.api_key = 'Password3'
+          end
+          mail = SendGrid::Mail.new do |m|
+            m.to = 'yass8n@yahoo.com'
+            m.from = 'taco@cat.limo'
+            m.subject = 'Hello world!'
+            m.text = 'I heard you like pineapple.'
+          end
+          client.send(mail) 
         end
 
         mail.delivery_method :sendmail

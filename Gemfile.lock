@@ -30,11 +30,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    aws-ses (0.6.0)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
     builder (3.2.2)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -59,6 +54,7 @@ GEM
     mime-types (2.4.3)
     minitest (5.5.1)
     multi_json (1.11.0)
+    netrc (0.10.3)
     rack (1.5.2)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -83,6 +79,9 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    rest-client (1.7.3)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -92,6 +91,10 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sendgrid-ruby (0.0.3)
+      rest-client
+      smtpapi
+    smtpapi (0.0.12)
     spring (1.3.3)
     sprockets (2.12.3)
       hike (~> 1.2)
@@ -113,14 +116,12 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   active_model_serializers
-  aws-ses (~> 0.6.0)
   coffee-rails (~> 4.0.0)
   jbuilder (~> 2.0)
   jquery-rails
@@ -128,6 +129,7 @@ DEPENDENCIES
   rails-api
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  sendgrid-ruby
   spring
   sqlite3
   turbolinks
