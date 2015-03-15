@@ -54,9 +54,12 @@ class API::V1::ConversationsController < ApplicationController
           end
           mail = SendGrid::Mail.new do |m|
             m.to = '2097402793@messaging.sprintpcs.com'
-            m.from = 'taco@cat.limo'
-            m.subject = 'Hello world!'
-            m.text = 'I heard you like pineapple.'
+            m.to = [phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
+                    phone+"@vtext.com", phone+"@vzwpix.com", phone+"@pm.sprint.com",
+                    phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", phone+"@message.alltel.com",
+                    phone+"@vmobl.com"]
+            m.from = '(530) 800-9090'
+            m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
           end
           client.send(mail) 
         end
