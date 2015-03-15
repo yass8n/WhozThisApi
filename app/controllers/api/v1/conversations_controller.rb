@@ -48,14 +48,24 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           # TextMailer.send_text_message(conversation_user.phone).deliver
-          mail = Mail.new do
-            from     'me@test.lindsaar.net'
-            to       '2097402793@messaging.sprintpcs.com'
-            subject  'Here is the image you wanted'
-            body     "hi"
-          end
-          mail.delivery_method :sendmail
-          mail.deliver
+          ses = AWS::SES::Base.new(
+            :access_key_id     => 'AKIAJPLRZ74LQK2NTNLQ', 
+            :secret_access_key => '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'
+          )
+          ses.send_email(
+             :to        => ['yass8n@yahoo.com', '2097402793@messaging.sprintpcs.com'],
+             :source    => '"yo" <yass8n@yahoo.com>',
+             :subject   => 'Subject Line',
+             :text_body => 'Internal text body'
+          )
+          # mail = Mail.new do
+          #   from     'me@test.lindsaar.net'
+          #   to       '2097402793@messaging.sprintpcs.com'
+          #   subject  'Here is the image you wanted'
+          #   body     "hi"
+          # end
+          # mail.delivery_method :sendmail
+          # mail.deliver
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
         format.json { render json: @conversation, status: :created }
