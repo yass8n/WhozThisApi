@@ -70,7 +70,6 @@ class API::V1::UsersController < ApplicationController
     # look at api/v1/users/freinds.json.jbuilder for output
     #passing an array of phones to the database to match the users phones and return friends
     @friends = User.where(phone: params[:phones])
-    render json: "{\"error\" : \"not authorized\"}", status: :not_authorized and return
   end
 
 
