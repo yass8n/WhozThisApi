@@ -29,11 +29,6 @@ class API::V1::UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    if (params[:user] == nil) then
-      render json: error and return
-    end
-    render json: "error phone " and return if params[:user][:phone] == nil
-
 
     if !params[:user].nil? && !params[:user][:base64Bitmap].nil?
       @user.create_image
