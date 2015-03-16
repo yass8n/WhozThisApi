@@ -1,4 +1,6 @@
 class API::V1::ConversationUsersController < ApplicationController
+  require 'multi_json'
+  MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
   before_action :set_conversation_user, only: [:show, :edit, :update, :destroy]
 
@@ -31,7 +33,7 @@ class API::V1::ConversationUsersController < ApplicationController
     respond_to do |format|
       if @conversation_user.save
         format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully created.' }
-        format.json { render json: @conversation_user, status: :created }
+        format.json { render json: @conversation_user, status: :ok }
       else
         format.html { render :new }
         format.json { render json: @conversation_user.errors, status: :unprocessable_entity }
@@ -45,7 +47,7 @@ class API::V1::ConversationUsersController < ApplicationController
     respond_to do |format|
       if @conversation_user.update(conversation_user_params)
         format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully updated.' }
-        format.json { render json: @conversation_user, status: :updated }
+        format.json { render json: @conversation_user, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @conversation_user.errors, status: :unprocessable_entity }

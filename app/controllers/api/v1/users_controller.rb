@@ -1,6 +1,8 @@
 class API::V1::UsersController < ApplicationController
+  require 'multi_json'
+  MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :stream]
 
   # GET /users
   # GET /users.json
@@ -41,7 +43,7 @@ class API::V1::UsersController < ApplicationController
           conv_user.save
         end
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created }
+        format.json { render json: @user, status: :ok }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -49,12 +51,26 @@ class API::V1::UsersController < ApplicationController
     end
   end
 
+  # GET /users/sign_in?user[password]=monkeyshash&user[phone]=123456789
   def sign_in
     @attempting_sign_in_user = User.new(user_params)
     @user = @attempting_sign_in_user.find_by_phone
     render json: @user, status: :ok and return if (@user != nil && @user.password == @attempting_sign_in_user.password)
-    render json: "Not Authorized", status: :not_authorized and return
+    render json: "{\"error\" : \"not authorized\"}", status: :not_authorized and return
   end
+
+  # GET /users/stream
+  def stream
+  # look at api/v1/users/stream.json.jbuilder for output
+  @conversations = @user.conversations
+  end
+
+  # POST /user/friends
+  def friends
+  # look at api/v1/users/freinds.json.jbuilder for output
+    @friends = User.where(phone: params[:phones])
+  end
+
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
@@ -68,7 +84,7 @@ class API::V1::UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render json: @user, status: :updated }
+        format.json { render json: @user, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }

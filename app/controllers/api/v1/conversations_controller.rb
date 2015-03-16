@@ -1,5 +1,7 @@
 class API::V1::ConversationsController < ApplicationController
   require 'sendgrid-ruby'
+  require 'multi_json'
+  MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
 
@@ -64,7 +66,7 @@ class API::V1::ConversationsController < ApplicationController
           client.send(mail) 
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
-        format.json { render json: @conversation, status: :created }
+        format.json { render json: @conversation, status: :ok }
       else
         format.html { render :new }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
@@ -78,7 +80,7 @@ class API::V1::ConversationsController < ApplicationController
 	respond_to do |format|
 if @conversation.update(conversation_params)
 	format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
-	format.json { render json: @conversation, status: :updated }
+	format.json { render json: @conversation, status: :ok }
 	else
 	format.html { render :edit }
 	format.json { render json: @conversation.errors, status: :unprocessable_entity }

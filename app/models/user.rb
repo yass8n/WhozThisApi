@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   require 'securerandom'
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :password, presence: true
   # validates :phone, presence: true, uniqueness: true
   has_many :conversations, through: :conversation_users
   has_many :conversation_users
