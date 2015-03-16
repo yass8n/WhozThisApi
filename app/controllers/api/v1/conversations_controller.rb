@@ -30,10 +30,10 @@ class API::V1::ConversationsController < ApplicationController
   # POST /conversations.json
   def create
     @conversation = Conversation.new(conversation_params)
-    if (params[:phones] == nil || params[:phones][0] == nil) then
+    if (params["phones"] == nil || params["phones"][0] == nil) then
       render json: "{\"phones\":[\"can't be blank\"]}", status: :unprocessable_entity and return 
     end
-    if (params[:conversation][:title] == nil || params[:conversation][:title] == "") then
+    if (params["conversation"]["title"] == nil || params["conversation"]["title"] == "") then
       @conversation.title = "No Subject"
     end
 
@@ -45,7 +45,7 @@ class API::V1::ConversationsController < ApplicationController
         end
         #if the conversation was successfully created, then we know that phone numbers have been passed in the parameters...
         #so we can now loop through these phone numbers and create conversation_users as well as send out notifications 
-        params[:phones].each do |phone|
+        params["phones"].each do |phone|
           user = User.new(phone: phone).find_by_phone
           #if a phone number is not in our database of users, set the user_id of that conversation_user to 0
           if user == nil then
