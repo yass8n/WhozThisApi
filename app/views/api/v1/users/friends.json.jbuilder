@@ -1,3 +1,1 @@
-json.friends @friends do |user|
-	json.user user
-end
+json.friends "Alex"
