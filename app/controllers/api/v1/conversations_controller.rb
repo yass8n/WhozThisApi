@@ -39,7 +39,7 @@ class API::V1::ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-         client = SendGrid::Client.new do |c|
+        client = SendGrid::Client.new do |c|
           c.api_user = GlobalConstants::API['username']
           c.api_key = GlobalConstants::API['password']
         end
@@ -47,7 +47,7 @@ class API::V1::ConversationsController < ApplicationController
         #so we can now loop through these phone numbers and create conversation_users as well as send out notifications 
         params["phones"].each do |phone|
           user = User.new(phone: phone).find_by_phone
-         #if a phone number is not in our database of users, set the user_id of that conversation_user to 0
+          #if a phone number is not in our database of users, set the user_id of that conversation_user to 0
           if user == nil then
             user = User.new
             user.id = 0
@@ -56,9 +56,9 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user.save
           mail = SendGrid::Mail.new do |m|
             m.to = [phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
-                    phone+"@vtext.com", phone+"@vzwpix.com",
-                    phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
-                    phone+"@message.alltel.com", phone+"@vmobl.com"]
+              phone+"@vtext.com", phone+"@vzwpix.com",
+              phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
+            phone+"@message.alltel.com", phone+"@vmobl.com"]
             m.subject = @conversation.title
             m.from = 'anonymous_user@WhozThis.com'
             m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
@@ -74,38 +74,38 @@ class API::V1::ConversationsController < ApplicationController
     end
   end
 
-# PATCH/PUT /conversations/1
-# PATCH/PUT /conversations/1.json
-	def update
-	respond_to do |format|
-if @conversation.update(conversation_params)
-	format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
-	format.json { render json: @conversation, status: :ok }
-	else
-	format.html { render :edit }
-	format.json { render json: @conversation.errors, status: :unprocessable_entity }
-	end
-	end
-	end
+  # PATCH/PUT /conversations/1
+  # PATCH/PUT /conversations/1.json
+  def update
+    respond_to do |format|
+      if @conversation.update(conversation_params)
+        format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
+        format.json { render json: @conversation, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @conversation.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
-# DELETE /conversations/1
-# DELETE /conversations/1.json
-	def destroy
-	@conversation.destroy
-	respond_to do |format|
-	format.html { redirect_to conversations_url, notice: 'Conversation was successfully destroyed.' }
-	format.json { head :no_content }
-	end
-	end
+  # DELETE /conversations/1
+  # DELETE /conversations/1.json
+  def destroy
+    @conversation.destroy
+    respond_to do |format|
+      format.html { redirect_to conversations_url, notice: 'Conversation was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
 
-	private
-# Use callbacks to share common setup or constraints between actions.
-	def set_conversation
-@conversation = Conversation.find(params[:id])
-	end
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_conversation
+    @conversation = Conversation.find(params[:id])
+  end
 
-# Never trust parameters from the scary internet, only allow the white list through.
-	def conversation_params
-params.require(:conversation).permit(:title, :user_id)
-	end
-	end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def conversation_params
+    params.require(:conversation).permit(:title, :user_id)
+  end
+end
