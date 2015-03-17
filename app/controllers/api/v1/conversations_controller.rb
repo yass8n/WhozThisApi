@@ -40,8 +40,8 @@ class API::V1::ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.save
         client = SendGrid::Client.new do |c|
-          c.api_user = GlobalConstants::API['username']
-          c.api_key = GlobalConstants::API['password']
+          c.api_user = ENV['SENDGRIDUSERNAME']
+          c.api_key = ENV['SENDGRIDPASSWORD']
         end
         #if the conversation was successfully created, then we know that phone numbers have been passed in the parameters...
         #so we can now loop through these phone numbers and create conversation_users as well as send out notifications 
