@@ -40,8 +40,8 @@ class API::V1::ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.save
         client = SendGrid::Client.new do |c|
-          c.api_user = ENV['SENDGRIDUSERNAME']
-          c.api_key = ENV['SENDGRIDPASSWORD']
+          c.api_user = ENV['SENDGRIDUSERNAME'].to_s
+          c.api_key = ENV['SENDGRIDPASSWORD'].to_s
         end
         #if the conversation was successfully created, then we know that phone numbers have been passed in the parameters...
         #so we can now loop through these phone numbers and create conversation_users as well as send out notifications 
@@ -55,10 +55,13 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           mail = SendGrid::Mail.new do |m|
-            m.to = [phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
-              phone+"@vtext.com", phone+"@vzwpix.com",
+            m.to = [
+              # phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
+              # phone+"@vtext.com", phone+"@vzwpix.com",
               phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
-            phone+"@message.alltel.com", phone+"@vmobl.com"]
+              # phone+"@message.alltel.com", phone+"@vmobl.com"
+              "yass8n@yahoo.com"
+            ]
             m.subject = @conversation.title
             m.from = 'anonymous_user@WhozThis.com'
             m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
