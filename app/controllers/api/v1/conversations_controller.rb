@@ -55,7 +55,6 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           if user.id == 0 then
-            render json: phone and return
             mail = SendGrid::Mail.new do |m|
               m.to = [
                 # phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
