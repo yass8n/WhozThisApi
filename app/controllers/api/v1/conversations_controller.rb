@@ -54,19 +54,20 @@ class API::V1::ConversationsController < ApplicationController
           end
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
-          mail = SendGrid::Mail.new do |m|
-            m.to = [
-              # phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
-              # phone+"@vtext.com", phone+"@vzwpix.com",
-              phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
-              # phone+"@message.alltel.com", phone+"@vmobl.com"
-              "yass8n@yahoo.com"
-            ]
-            m.subject = @conversation.title
-            m.from = 'anonymous_user@WhozThis.com'
-            m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+          if user.id == 0 then
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
+                phone+"@vtext.com", phone+"@vzwpix.com",
+                phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
+                phone+"@message.alltel.com", phone+"@vmobl.com"
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
           end
-          client.send(mail) 
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
         format.json { render json: @conversation, status: :ok }
