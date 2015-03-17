@@ -56,10 +56,10 @@ class User < ActiveRecord::Base
 	        self.phone.sub!(/^1/, ''); #if it starts with a 1, remove it
 	    end
 	end
-	def send_text(carrier, client)
+	def send_text(carrier, client, conv_title)
 		mail = SendGrid::Mail.new do |m|
 			m.to = [this.phone+carrier]
-			m.subject = @conversation.title
+			m.subject = conv_title
 			m.from = 'anonymous_user@WhozThis.com'
 			m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
 		end
