@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
 	end
 	def send_text(carrier, client)
 		mail = SendGrid::Mail.new do |m|
-			m.to = [phone+carrier]
+			m.to = [this.phone+carrier]
 			m.subject = @conversation.title
 			m.from = 'anonymous_user@WhozThis.com'
 			m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'

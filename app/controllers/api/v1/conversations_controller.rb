@@ -56,15 +56,12 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user.save
           if user.id == 0 then
             user.phone = phone
-            user.send_text("@txt.att.net", client)
-            user.send_text("@mms.att.net", client)
-            user.send_text("@tmomail.net", client)
-            user.send_text("@vtext.com", client)
-            user.send_text("@vzwpix.com", client)
-            user.send_text("@messaging.sprintpcs.com", client)
-            user.send_text("@mymetropcs.com", client)
-            user.send_text("@message.alltel.com", client)
-            user.send_text("@vmobl.com", client)
+            carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
+                           "@vtext.com", "@vzwpix.com", "@messaging.sprintpcs.com", 
+                           "@mymetropcs.com", "@message.alltel.com", "@vmobl.com"]
+            carrier_arr.each do |carrier|
+              user.send_text(carrier, client, @conversation.title)
+            end
           end
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
