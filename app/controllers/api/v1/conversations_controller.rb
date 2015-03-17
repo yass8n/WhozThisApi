@@ -55,12 +55,11 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           if user.id == 0 then
-            user.phone = phone
             carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
                            "@vtext.com", "@vzwpix.com", "@messaging.sprintpcs.com", 
                            "@mymetropcs.com", "@message.alltel.com", "@vmobl.com"]
             carrier_arr.each do |carrier|
-              user.send_text(carrier, client, @conversation.title)
+              user.send_text(phone, carrier, client, @conversation.title)
             end
           end
         end
