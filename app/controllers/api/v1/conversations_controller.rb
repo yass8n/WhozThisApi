@@ -56,8 +56,87 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user.save
           if user.id == 0 then
             mail = SendGrid::Mail.new do |m|
+              m.to = [phone+"@txt.att.net", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
               m.to = [
-                phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net", phone+"@vtext.com", phone+"@vzwpix.com", phone+"@messaging.sprintpcs.com", phone+"@mymetropcs.com", phone+"@message.alltel.com", phone+"@vmobl.com",
+                phone+"@mms.att.net",
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@tmomail.net", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@vtext.com", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@vzwpix.com", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@messaging.sprintpcs.com", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@mymetropcs.com", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@message.alltel.com", 
+              ]
+              m.subject = @conversation.title
+              m.from = 'anonymous_user@WhozThis.com'
+              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+            end
+            client.send(mail) 
+
+            mail = SendGrid::Mail.new do |m|
+              m.to = [
+                phone+"@vmobl.com"
               ]
               m.subject = @conversation.title
               m.from = 'anonymous_user@WhozThis.com'
