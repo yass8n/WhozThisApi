@@ -48,7 +48,10 @@ class API::V1::ConversationsController < ApplicationController
         params["phones"].each do |phone|
           user = User.new(phone: phone).find_by_phone
           #if a phone number is not in our database of users, set the user_id of that conversation_user to 0
-          user.id = 0 if user == nil
+          if user == nil then
+            user = User.new
+            user.id = 0
+          end
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           if user.id == 0 then
