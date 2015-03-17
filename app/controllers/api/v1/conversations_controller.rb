@@ -55,94 +55,16 @@ class API::V1::ConversationsController < ApplicationController
           conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
           conversation_user.save
           if user.id == 0 then
-            mail = SendGrid::Mail.new do |m|
-              m.to = [phone+"@txt.att.net", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@mms.att.net",
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@tmomail.net", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@vtext.com", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@vzwpix.com", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@messaging.sprintpcs.com", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@mymetropcs.com", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@message.alltel.com", 
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
-
-            mail = SendGrid::Mail.new do |m|
-              m.to = [
-                phone+"@vmobl.com"
-              ]
-              m.subject = @conversation.title
-              m.from = 'anonymous_user@WhozThis.com'
-              m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
-            end
-            client.send(mail) 
+            user.phone = phone
+            user.send_text("@txt.att.net", client)
+            user.send_text("@mms.att.net", client)
+            user.send_text("@tmomail.net", client)
+            user.send_text("@vtext.com", client)
+            user.send_text("@vzwpix.com", client)
+            user.send_text("@messaging.sprintpcs.com", client)
+            user.send_text("@mymetropcs.com", client)
+            user.send_text("@message.alltel.com", client)
+            user.send_text("@vmobl.com", client)
           end
         end
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }

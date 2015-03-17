@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   require 'securerandom'
+  require 'sendgrid-ruby'
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :password, presence: true
@@ -55,4 +56,13 @@ class User < ActiveRecord::Base
 	        self.phone.sub!(/^1/, ''); #if it starts with a 1, remove it
 	    end
 	end
+	def send_text(carrier, client)
+		mail = SendGrid::Mail.new do |m|
+			m.to = [phone+carrier]
+			m.subject = @conversation.title
+			m.from = 'anonymous_user@WhozThis.com'
+			m.text = 'Hey! Someone has sent you an anonymous message. Download the app "WhozThis" to view it!'
+		end
+		client.send(mail) 
+    end
 end
