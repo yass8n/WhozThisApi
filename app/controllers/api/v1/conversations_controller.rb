@@ -60,7 +60,7 @@ class API::V1::ConversationsController < ApplicationController
                 # phone+"@txt.att.net", phone+"@mms.att.net",phone+"@tmomail.net",
                 # phone+"@vtext.com", phone+"@vzwpix.com",
                 phone+ "@messaging.sprintpcs.com",phone+"@mymetropcs.com", 
-                # phone+"@message.alltel.com", phone+"@vmobl.com"
+                phone+"@message.alltel.com", phone+"@vmobl.com",
               ]
               m.subject = @conversation.title
               m.from = 'anonymous_user@WhozThis.com'
