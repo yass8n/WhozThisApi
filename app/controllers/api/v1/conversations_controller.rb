@@ -39,7 +39,7 @@ class API::V1::ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        @owner = User.find(params[:user_id])
+        @owner = User.find(id: params[:user_id])
         # including owner in the conversation
         conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: @owner.phone, user_id: @owner.id)
         conversation_user.save
