@@ -30,6 +30,10 @@ class API::V1::ConversationsController < ApplicationController
   # POST /conversations.json
   def create
     @conversation = Conversation.new(conversation_params)
+    owner = User.find(params[:conversation][:user_id])
+    if (owner.nil?) then
+      render json: "{\"user_id\":[\"not in database\"]}", status: :unprocessable_entity and return 
+    end
     if (params["phones"] == nil || params["phones"][0] == nil) then
       render json: "{\"phones\":[\"can't be blank\"]}", status: :unprocessable_entity and return 
     end
@@ -39,7 +43,6 @@ class API::V1::ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        owner = User.find(params[:conversation][:user_id])
         # including owner in the conversation
         conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id)
         conversation_user.save
