@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     post "/users/sign_up", to: "users#create"
     post "/users/sign_in", to: "users#sign_in"
     get "/users/stream/:id", to: "users#stream"
-    post "/users/friends", to: "users#friends"
+    get "/users/friends", to: "users#friends"
     resources :conversation_users
 
     resources :conversations
