@@ -39,9 +39,9 @@ class API::V1::ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        @owner = User.find(id: params[:user_id])
+        owner = User.find(params[:conversation][:user_id])
         # including owner in the conversation
-        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: @owner.phone, user_id: @owner.id)
+        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id)
         conversation_user.save
         client = SendGrid::Client.new do |c|
           c.api_user = ENV['SENDGRIDUSERNAME'].to_s
@@ -56,14 +56,16 @@ class API::V1::ConversationsController < ApplicationController
             user = User.new
             user.id = 0
           end
-          conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
-          conversation_user.save
-          if user.id == 0 then
-            carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
-                           "@vtext.com", "@vzwpix.com", "@messaging.sprintpcs.com", 
-                           "@mymetropcs.com", "@message.alltel.com", "@vmobl.com"]
-            carrier_arr.each do |carrier|
-              user.send_text(phone, carrier, client, @conversation.title)
+          if (owner.id != user.id) then #this avoids the owner adding himself to the conversation
+            conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
+            conversation_user.save
+            if user.id == 0 then
+              carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
+                             "@vtext.com", "@vzwpix.com", "@messaging.sprintpcs.com", 
+                             "@mymetropcs.com", "@message.alltel.com", "@vmobl.com"]
+              carrier_arr.each do |carrier|
+                user.send_text(phone, carrier, client, @conversation.title)
+              end
             end
           end
         end
