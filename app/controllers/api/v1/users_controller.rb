@@ -65,7 +65,7 @@ class API::V1::UsersController < ApplicationController
     @conversations = @user.conversations
   end
 
-  # GET /user/friends
+  # Post /user/friends
   def friends
     # look at api/v1/users/freinds.json.jbuilder for output
     #passing an array of phones to the database to match the users phones and return friends
