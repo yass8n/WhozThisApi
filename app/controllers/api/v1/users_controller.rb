@@ -51,7 +51,7 @@ class API::V1::UsersController < ApplicationController
     end
   end
 
-  # GET /users/sign_in?user[password]=monkeyshash&user[phone]=123456789
+  # Post /users/sign_in
   def sign_in
     @attempting_sign_in_user = User.new(user_params)
     @user = @attempting_sign_in_user.find_by_phone
