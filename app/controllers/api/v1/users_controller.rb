@@ -62,7 +62,7 @@ class API::V1::UsersController < ApplicationController
   # GET /users/stream/:user_id
   def stream
     # look at api/v1/users/stream.json.jbuilder for output
-    @conversations = @user.conversations
+    @conversations = @user.conversations.reverse!
   end
 
   # Post /user/friends
