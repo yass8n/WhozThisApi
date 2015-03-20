@@ -30,7 +30,7 @@ class API::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if !params[:user].nil? && !params[:user][:base64Bitmap].nil?
+    if !params[:user].nil? && !params[:user][:picture].nil?
       @user.create_image
     end
 
@@ -62,7 +62,7 @@ class API::V1::UsersController < ApplicationController
   # GET /users/stream/:user_id
   def stream
     # look at api/v1/users/stream.json.jbuilder for output
-    @conversations = @user.conversations.reverse!
+    @conversations = @user.conversations.reverse
   end
 
   # Post /user/friends
