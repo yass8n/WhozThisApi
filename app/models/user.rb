@@ -24,13 +24,13 @@ class User < ActiveRecord::Base
 		    self.filename = ""
 		end
 	end
-	def create_image(filename)
+	def create_image(encoded_file)
         # create a new tempfile named fileupload
         tempfile = Tempfile.new("fileupload")
 
         tempfile.binmode
         # get the file and decode it with base64 then write it to the tempfile
-        tempfile.write(Base64.decode64(filename))
+        tempfile.write(Base64.decode64(encoded_file))
         # i dunno why I need this but I saw it in an example
         tempfile.rewind()
 

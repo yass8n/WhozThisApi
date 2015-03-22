@@ -77,9 +77,10 @@ class API::V1::UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if !params[:user].nil? && !params[:user][:filename].nil?
+    encoded_file = params[:user][:filename]
+    if !params[:user].nil? && !encoded_file.nil? && encoded_file != ""
       @user.remove_image_path
-      @user.create_image(params[:user][:filename])
+      @user.create_image(encoded_file)
     end
 
     respond_to do |format|
