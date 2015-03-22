@@ -36,6 +36,8 @@ gem 'yajl-ruby'
 
 gem 'ruby-beautify'
 
+gem "multipart-parser"
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

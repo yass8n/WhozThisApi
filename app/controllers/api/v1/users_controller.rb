@@ -1,5 +1,6 @@
 class API::V1::UsersController < ApplicationController
   require 'multi_json'
+  require 'multipart_parser/reader'
   MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy, :stream]
@@ -30,7 +31,7 @@ class API::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if !params[:user].nil? && !params[:user][:picture].nil?
+    if !params[:user].nil? && !params[:user][:filename].nil?
       @user.create_image
     end
 
@@ -76,14 +77,13 @@ class API::V1::UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-
-    if !params[:user].nil? && !params[:user][:base64Bitmap].nil?
-      user.remove_image_path
-      user.create_image
+    if !params[:user].nil? && !params[:user][:filename].nil?
+      @user.remove_image_path
+      @user.create_image(params[:user][:filename])
     end
 
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_params) 
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render json: @user, status: :ok }
       else

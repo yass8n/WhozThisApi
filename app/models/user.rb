@@ -18,26 +18,26 @@ class User < ActiveRecord::Base
 		return filename
 	end
 	def remove_image_path
-		if ( !self.filename.nil? && self.filename != "")
+		if ( self.filename != nil && self.filename != "")
 			path = Rails.root.join('public', 'images', self.filename)
 			File.delete(path)
 		    self.filename = ""
 		end
 	end
-	def create_image
-        #create a new tempfile named fileupload
+	def create_image(filename)
+        # create a new tempfile named fileupload
         tempfile = Tempfile.new("fileupload")
 
         tempfile.binmode
-        #get the file and decode it with base64 then write it to the tempfile
-        tempfile.write(Base64.decode64(params[:user][:base64Bitmap]))
+        # get the file and decode it with base64 then write it to the tempfile
+        tempfile.write(Base64.decode64(filename))
         # i dunno why I need this but I saw it in an example
         tempfile.rewind()
 
         #create a new uploaded file
         uploaded_file = ActionDispatch::Http::UploadedFile.new(:tempfile => tempfile)
 
-        self.filename = resource.generate_filename
+        self.filename = self.generate_filename
 
       File.open(Rails.root.join('public', 'images', self.filename), 'wb') do |file|
         file.write(uploaded_file.read)
