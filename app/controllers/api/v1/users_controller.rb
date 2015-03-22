@@ -1,6 +1,5 @@
 class API::V1::UsersController < ApplicationController
   require 'multi_json'
-  require 'multipart_parser/reader'
   MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy, :stream]

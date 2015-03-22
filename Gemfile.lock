@@ -54,7 +54,6 @@ GEM
     mime-types (2.4.3)
     minitest (5.5.1)
     multi_json (1.11.0)
-    multipart-parser (0.1.1)
     netrc (0.10.3)
     rack (1.5.2)
     rack-test (0.6.3)
@@ -128,7 +127,6 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   jbuilder (~> 2.0)
   jquery-rails
-  multipart-parser
   rails (= 4.1.6)
   rails-api
   ruby-beautify

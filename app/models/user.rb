@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :password, presence: true
   validates :phone, presence: true, uniqueness: true
+  validates_uniqueness_of :phone
   has_many :conversations, through: :conversation_users
   has_many :conversation_users
   before_save :strip_phone_number
