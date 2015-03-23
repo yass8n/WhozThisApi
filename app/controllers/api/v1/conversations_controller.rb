@@ -44,7 +44,7 @@ class API::V1::ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.save
         # including owner in the conversation
-        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id)
+        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id, deleted: false)
         conversation_user.save
         client = SendGrid::Client.new do |c|
           c.api_user = ENV['SENDGRIDUSERNAME'].to_s
@@ -59,8 +59,8 @@ class API::V1::ConversationsController < ApplicationController
             user = User.new
             user.id = 0
           end
-          if (owner.id != user.id) then #this avoids the owner adding himself to the conversation
-            conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id)
+          if (owner.id != user.id) then #this avoids the owner adding himself to the conversation on purpose
+            conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id, deleted: false)
             conversation_user.save
             if user.id == 0 then
               carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
