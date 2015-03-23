@@ -25,20 +25,22 @@ class API::V1::ConversationUsersController < ApplicationController
   def edit
   end
 
-  # GET /conversation_users/1/edit
+  # put /conversation_users/delete
   def delete
-    user_id = params[:conversation_users][:user_id]
-    conversation_id = params[:conversation_users][:conversation_id]
+    user_id = params[:conversation_user][:user_id]
+    conversation_id = params[:conversation_user][:conversation_id]
     @conversation_user = ConversationUser.where(user_id: user_id, conversation_id: conversation_id)[0]
-    if (!@conversation_user.nil?) 
-      @conversation_user.deleted = true
-      if @conversation_user.save then
-        format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully deleted' }
-        format.json { render json: "{\"status\":\"success\"}", status: :ok }
+    respond_to do |format|
+      if (!@conversation_user.nil?) 
+        @conversation_user.deleted = true
+        if @conversation_user.save then
+          format.html { redirect_to @conversation_user, notice: 'Conversation user was successfully deleted' }
+          format.json { render json: "{\"status\":\"success\"}", status: :ok }
+        end
+      else
+          format.html { redirect_to @conversation_user, notice: 'Conversation user was NOT successfully deleted' }
+          format.json { render json: @conversation_user.errors, status: :unprocessable_entity }
       end
-    else
-        format.html { redirect_to @conversation_user, notice: 'Conversation user was NOT successfully deleted' }
-        format.json { render json: @conversation_user.errors, status: :unprocessable_entity }
     end
   end
 
