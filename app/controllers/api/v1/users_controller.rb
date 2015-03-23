@@ -63,7 +63,8 @@ class API::V1::UsersController < ApplicationController
   # GET /users/stream/:user_id
   def stream
     # look at api/v1/users/stream.json.jbuilder for output
-    @conversations = @user.conversations.reverse
+    conversations = @user.conversations.merge(ConversationUser.active).reverse #get all active (non-deleted) conversations 
+    render :partial => "api/v1/users/stream.json.jbuilder", locals: {conversations: conversations }, status: :ok
   end
 
   # Post /user/friends

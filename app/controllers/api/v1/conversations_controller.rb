@@ -72,8 +72,10 @@ class API::V1::ConversationsController < ApplicationController
             end
           end
         end
+        conversations = Array.new()
+        conversations.push(@conversation)
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
-        format.json { render json: @conversation, status: :ok }
+        format.json { render :partial => "api/v1/users/stream.json.jbuilder", locals: {conversations: conversations }, status: :ok }
       else
         format.html { render :new }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
