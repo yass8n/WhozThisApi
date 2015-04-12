@@ -59,7 +59,7 @@ class API::V1::ConversationsController < ApplicationController
             user = User.new
             user.id = 0
           end
-          if (owner.id != user.id) then #this avoids the owner adding himself to the conversation on purpose
+          if (owner.id != user.id && !BlockedUser.new.already_blocked?(user.id, owner.id)) then #this avoids the owner adding himself to the conversation on purpose
             conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id, deleted: false)
             conversation_user.save
             if user.id == 0 then
