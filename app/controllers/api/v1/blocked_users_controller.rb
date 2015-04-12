@@ -33,7 +33,8 @@ class API::V1::BlockedUsersController < ApplicationController
     unless (current_user.nil? || blocked_user_ids.nil?) then
       blocked_user_ids.each do |blocked_id| 
         already_blocked = BlockedUser.new.already_blocked?(current_user.id, blocked_id)
-        if (!already_blocked) then
+        checking_existance = User.where(id: blocked_id)[0]
+        if (!already_blocked && checking_existance) then
           blocked_user = BlockedUser.new
           blocked_user.user_id = current_user.id
           blocked_user.blocked_id = blocked_id
