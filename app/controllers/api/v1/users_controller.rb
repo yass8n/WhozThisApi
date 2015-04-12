@@ -2,7 +2,7 @@ class API::V1::UsersController < ApplicationController
   require 'multi_json'
   MultiJson.use :yajl
   skip_before_action :verify_authenticity_token
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :stream]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :stream, :blocked]
 
   # GET /users
   # GET /users.json
@@ -72,6 +72,14 @@ class API::V1::UsersController < ApplicationController
     # look at api/v1/users/freinds.json.jbuilder for output
     #passing an array of phones to the database to match the users phones and return friends
     @friends = User.where(phone: params["phones"])
+  end
+
+  # Get /user/blocked
+  def blocked
+    # look at api/v1/users/freinds.json.jbuilder for output
+    #passing an array of phones to the database to match the users phones and return friends
+    blocked_users = @user.get_blocked_users
+    render :partial => "api/v1/blocked_users/blocked.json.jbuilder", locals: {blocked: blocked_users }, status: :ok
   end
 
 

@@ -65,4 +65,13 @@ class User < ActiveRecord::Base
 		end
 		client.send(mail) 
     end
+    def get_blocked_users
+    	blocked_users = []
+    	blocked_users_relations = BlockedUser.where(user_id: self.id)
+    	blocked_users_relations.each do |user|
+    		blocked_user = User.where(id: user.blocked_id)[0]
+    		blocked_users.push(user) if blocked_user 
+    	end
+    	return blocked_users
+    end
 end
