@@ -36,13 +36,12 @@ class API::V1::UsersController < ApplicationController
     end
 
     respond_to do |format|
-      if @user.save
+      if @user.save then
         # Setting the conversation_user ids of the new user from 0 to the users new ID
         users_conversations = ConversationUser.where(phone: @user.phone)
         users_conversations.each do |conv_user|
           conv_user.user_id = @user.id
-          puts "here"
-          conv_user.save
+          conv_user.save!
         end
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :ok }
