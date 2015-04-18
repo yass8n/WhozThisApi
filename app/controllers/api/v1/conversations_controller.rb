@@ -46,9 +46,9 @@ class API::V1::ConversationsController < ApplicationController
         params["phones"].length.times do |id|
           random_ids_array << (id + 1)
         end
+        random_ids_array << (params["phones"].length) + 1
         random_ids_array.shuffle!
         puts random_ids_array
-        puts "............"
         index = 0
         # including owner in the conversation
         conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id, deleted: false, fake_id: random_ids_array[index], color: GlobalConstants::COLORS[random_ids_array[index] % GlobalConstants::COLORS.length])
