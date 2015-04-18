@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412040224) do
+ActiveRecord::Schema.define(version: 20150418123438) do
 
   create_table "blocked_users", force: true do |t|
     t.integer  "user_id"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20150412040224) do
     t.datetime "updated_at"
     t.string   "phone"
     t.boolean  "deleted"
+    t.string   "color"
+    t.integer  "fake_id"
   end
 
   create_table "conversations", force: true do |t|

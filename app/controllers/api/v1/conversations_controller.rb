@@ -40,11 +40,19 @@ class API::V1::ConversationsController < ApplicationController
     if (params["conversation"]["title"] == nil || params["conversation"]["title"] == "") then
       @conversation.title = "No Subject"
     end
-
     respond_to do |format|
       if @conversation.save
+        random_ids_array = Array.new
+        params["phones"].length.times do |id|
+          random_ids_array << (id + 1)
+        end
+        random_ids_array << (params["phones"].length) + 1
+        random_ids_array.shuffle!
+        puts random_ids_array
+        puts "............"
+        index = 0
         # including owner in the conversation
-        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id, deleted: false)
+        conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: owner.phone, user_id: owner.id, deleted: false, fake_id: random_ids_array[index], color: GlobalConstants::COLORS[random_ids_array[index] % GlobalConstants::COLORS.length])
         conversation_user.save
         client = SendGrid::Client.new do |c|
           c.api_user = ENV['SENDGRIDUSERNAME'].to_s
@@ -60,13 +68,12 @@ class API::V1::ConversationsController < ApplicationController
             user.id = 0
           end
           if (owner.id != user.id && !BlockedUser.new.already_blocked?(user.id, owner.id)) then #this avoids the owner adding himself to the conversation on purpose
-            conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id, deleted: false)
+            index += 1
+            conversation_user = ConversationUser.new(conversation_id: @conversation.id, phone: phone, user_id: user.id, deleted: false, fake_id: random_ids_array[index], color: GlobalConstants::COLORS[random_ids_array[index] % GlobalConstants::COLORS.length])
             conversation_user.save
+
             if user.id == 0 then
-              carrier_arr = ["@txt.att.net", "@txt.att.net", "@mms.att.net", "@tmomail.net",
-                             "@vtext.com", "@vzwpix.com", "@messaging.sprintpcs.com", 
-                             "@mymetropcs.com", "@message.alltel.com", "@vmobl.com"]
-              carrier_arr.each do |carrier|
+              GlobalConstants::CARRIER.each do |carrier|
                 user.send_text(phone, carrier, client, @conversation.title)
               end
             end

@@ -74,4 +74,18 @@ class User < ActiveRecord::Base
     	end
     	return blocked_users
     end
+    def get_convo_fake_id(convo_id)
+    	self.conversation_users.each do |cu|
+    		if (cu.conversation_id == convo_id)
+    			return cu.fake_id
+    		end
+    	end
+    end
+    def get_convo_color(convo_id)
+    	self.conversation_users.each do |cu|
+    		if (cu.conversation_id == convo_id)
+    			return cu.color
+    		end
+    	end
+    end
 end
