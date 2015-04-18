@@ -8,6 +8,7 @@ json.conversations conversations do |conversation|
 	json.first_name  user.first_name
     json.last_name   user.last_name
     json.phone       user.phone
+    json.filename    user.filename
 	json.fake_id     user.get_convo_fake_id(conversation.id)
 	json.color       user.get_convo_color(conversation.id)     
 	end
