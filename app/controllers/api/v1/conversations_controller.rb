@@ -46,7 +46,6 @@ class API::V1::ConversationsController < ApplicationController
         params["phones"].length.times do |id|
           random_ids_array << (id + 1)
         end
-        random_ids_array << (params["phones"].length) + 1
         random_ids_array.shuffle!
         puts random_ids_array
         puts "............"
