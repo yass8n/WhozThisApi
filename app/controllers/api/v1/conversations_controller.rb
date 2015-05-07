@@ -94,6 +94,7 @@ class API::V1::ConversationsController < ApplicationController
   def update
     respond_to do |format|
       if @conversation.update(conversation_params)
+        @conversation.touch
         format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
         format.json { render json: @conversation, status: :ok }
       else
